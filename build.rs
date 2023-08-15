@@ -1,26 +1,31 @@
-use std::{env, error::Error, path::Path};
+use std::{env, error::Error, path::Path, process::Command};
 
 use bindgen::builder;
-use chrono::prelude::*;
 
 fn main() -> Result<(), Box<dyn Error>> {
     println!("cargo:rerun-if-changed=Dobby");
 
-    let today = Local::now();
-    let version = today.format("\"Dobby-%Y%m%d\"").to_string();
+    let out_dir = env::var("OUT_DIR")?;
+    let out_dir = Path::new(&out_dir);
 
-    cc::Build::new()
-        .define("__DOBBY_BUILD_VERSION__", &*version)
-        .include("Dobby/external")
-        .include("Dobby/include")
-        .include("Dobby/source")
-        .include("Dobby/external/logging/")
-        .include("Dobby/source/Backend/KernelMode")
-        .include("Dobby/source/Backend/UserMode")
-        .file("Dobby/source/dobby.cpp")
-        .compile("libdobby.a");
+    Command::new("cmake")
+        .args(["-S", "Dobby"])
+        .args(["-B", &out_dir.display().to_string()])
+        .arg(r#"-DCMAKE_C_FLAGS="-Os -static-libstdc++ -flto -fmerge-all-constants -fno-exceptions -fomit-frame-pointer -fshort-enums -Wl,-O3,--lto-O3,--gc-sections,--as-needed,--icf=all,-z,norelro -w""#)
+        .spawn()?
+        .wait()?;
 
-    let binding_path = Path::new(&env::var("OUT_DIR")?).join("bindings.rs");
+    Command::new("make")
+        .current_dir(out_dir)
+        .arg("-j4")
+        .spawn()?
+        .wait()?;
+
+    // println!("cargo:warning=lib_path={}", out_dir.display());
+    println!("cargo:rustc-link-search=native={}", out_dir.display());
+    println!("cargo:rustc-link-lib=static=dobby");
+
+    let binding_path = out_dir.join("bindings.rs");
 
     let bindings = builder()
         .header("Dobby/include/dobby.h")
