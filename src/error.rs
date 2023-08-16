@@ -10,4 +10,12 @@ pub enum Error {
     FailedToUndoHook(Address),
     #[error("Failed to find func by symbol {0}")]
     FuncNotFound(String),
+    #[error("Memory error happend at {0:?}, error type: MemoryOperationError")]
+    MemoryOperationError(Address),
+    #[error("Memory error happend at {0:?}, error type: NotSupportAllocateExecutableMemory")]
+    NotSupportAllocateExecutableMemory(Address),
+    #[error("Memory error happend at {0:?}, error type: MemoryOperationErrorNotEnough")]
+    MemoryOperationErrorNotEnough(Address),
+    #[error("Memory error happend at {0:?}, error type: MemoryOperationErrorNone")]
+    MemoryOperationErrorNone(Address),
 }

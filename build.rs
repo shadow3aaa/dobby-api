@@ -31,9 +31,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         .header("Dobby/include/dobby.h")
         .allowlist_function("DobbyHook")
         .allowlist_function("DobbyDestroy")
+        .allowlist_function("DobbyCodePatch")
         .allowlist_function("DobbyGetVersion")
         .allowlist_function("DobbySymbolResolver")
-        .allowlist_function("DobbyImportTableReplace")
+        // .allowlist_function("DobbyImportTableReplace")
         .generate()?;
 
     bindings.write_to_file(binding_path)?;
