@@ -34,10 +34,10 @@ pub unsafe fn patch_code(addr: Address, code: &[u8]) -> Result<(), Error> {
         u32::try_from(code.len()).unwrap(),
     ) {
         0 => return Ok(()),
-        1 => Error::MemoryOperationError(addr),
-        2 => Error::NotSupportAllocateExecutableMemory(addr),
-        3 => Error::MemoryOperationErrorNotEnough(addr),
-        4 => Error::MemoryOperationErrorNone(addr),
+        1 => Error::MemoryOperationError,
+        2 => Error::NotSupportAllocateExecutableMemory,
+        3 => Error::MemoryOperationErrorNotEnough,
+        4 => Error::MemoryOperationErrorNone,
         _ => unreachable!(),
     };
 
@@ -64,7 +64,7 @@ pub unsafe fn hook(
     );
 
     if result == -1 {
-        return Err(Error::FailedToHook(target_func_addr, replace_func_addr));
+        return Err(Error::FailedToHook);
     }
 
     Ok(())
@@ -81,7 +81,7 @@ pub unsafe fn hook(
 /// Hook can cause all kinds of undefined behavior, so it's unsafe
 pub unsafe fn undo_hook(undo_addr: Address) -> Result<(), Error> {
     if bind::DobbyDestroy(undo_addr) == -1 {
-        Err(Error::FailedToUndoHook(undo_addr))
+        Err(Error::FailedToUndoHook)
     } else {
         Ok(())
     }
@@ -115,7 +115,7 @@ pub fn resolve_func_addr<S: AsRef<str>>(library: Option<S>, symbol: S) -> Result
     };
 
     if addr.is_null() {
-        Err(Error::FuncNotFound(symbol.to_string()))
+        Err(Error::FuncNotFound)
     } else {
         Ok(addr)
     }
