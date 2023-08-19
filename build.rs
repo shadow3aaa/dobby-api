@@ -11,7 +11,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     Command::new("cmake")
         .args(["-S", "Dobby"])
         .args(["-B", &out_dir.display().to_string()])
-        .arg(r#"-DCMAKE_C_FLAGS="-Os -static-libstdc++ -flto -fmerge-all-constants -fno-exceptions -fomit-frame-pointer -fshort-enums -Wl,-O3,--lto-O3,--gc-sections,--as-needed,--icf=all,-z,norelro -w""#)
+        .arg(r#"-DCMAKE_BUILD_TYPE=Release --enable-optimized --enable-targets=host-only -DLLVM_ENABLE_PROJECTS="clang""#)
         .spawn()?
         .wait()?;
 
