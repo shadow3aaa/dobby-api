@@ -11,7 +11,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     #[cfg(target_os = "ios")]
     {
         println!("cargo:rustc-link-search=native=prebuilt/ios/arm64");
-        println!("cargo:rustc-link-lib=static=dobby");
     }
 
     #[cfg(target_os = "macos")]
@@ -19,13 +18,11 @@ fn main() -> Result<(), Box<dyn Error>> {
         #[cfg(target_arch = "aarch64")]
         {
             println!("cargo:rustc-link-search=native=prebuilt/macos/arm64");
-            println!("cargo:rustc-link-lib=static=dobby");
         }
 
         #[cfg(target_arch = "x86_64")]
         {
             println!("cargo:rustc-link-search=native=prebuilt/macos/x86_64");
-            println!("cargo:rustc-link-lib=static=dobby");
         }
     }
 
@@ -34,25 +31,21 @@ fn main() -> Result<(), Box<dyn Error>> {
         #[cfg(target_arch = "arm")]
         {
             println!("cargo:rustc-link-search=native=prebuilt/linux/arm");
-            println!("cargo:rustc-link-lib=static=dobby");
         }
 
         #[cfg(target_arch = "aarch64")]
         {
             println!("cargo:rustc-link-search=native=prebuilt/linux/arm64");
-            println!("cargo:rustc-link-lib=static=dobby");
         }
 
         #[cfg(target_arch = "x86")]
         {
             println!("cargo:rustc-link-search=native=prebuilt/linux/x86");
-            println!("cargo:rustc-link-lib=static=dobby");
         }
 
         #[cfg(target_arch = "x86_64")]
         {
             println!("cargo:rustc-link-search=native=prebuilt/linux/x86_64");
-            println!("cargo:rustc-link-lib=static=dobby");
         }
     }
 
@@ -61,28 +54,25 @@ fn main() -> Result<(), Box<dyn Error>> {
         #[cfg(target_arch = "aarch64")]
         {
             println!("cargo:rustc-link-search=native=prebuilt/android/arm64-v8a");
-            println!("cargo:rustc-link-lib=static=dobby");
         }
 
         #[cfg(target_arch = "arm")]
         {
             println!("cargo:rustc-link-search=native=prebuilt/android/armeabi-v7a");
-            println!("cargo:rustc-link-lib=static=dobby");
         }
 
         #[cfg(target_arch = "x86")]
         {
             println!("cargo:rustc-link-search=native=prebuilt/android/x86");
-            println!("cargo:rustc-link-lib=static=dobby");
         }
 
         #[cfg(target_arch = "x86_64")]
         {
             println!("cargo:rustc-link-search=native=prebuilt/android/x86_64");
-            println!("cargo:rustc-link-lib=static=dobby");
         }
     }
 
+    println!("cargo:rustc-link-lib=static=dobby");
     let binding_path = out_dir.join("bindings.rs");
 
     let bindings = builder()

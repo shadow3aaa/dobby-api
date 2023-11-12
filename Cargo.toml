@@ -1,13 +1,10 @@
 [package]
 name = "dobby-api"
-version = "0.1.5"
+version = "0.1.7"
 edition = "2021"
 description = "Export DobbyHook's api in rust style"
 license = "Apache-2.0"
 repository = "https://github.com/shadow3aaa/dobby-api"
-
-[lib]
-crate-type = ["cdylib"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

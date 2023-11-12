@@ -30,7 +30,7 @@ pub type Address = *mut c_void;
 pub unsafe fn patch_code(addr: Address, code: &[u8]) -> Result<(), Error> {
     let ret = match bind::DobbyCodePatch(
         addr,
-        code.as_ptr() as *mut _,
+        code.as_ptr().cast_mut(),
         u32::try_from(code.len()).unwrap(),
     ) {
         0 => return Ok(()),
