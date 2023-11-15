@@ -72,9 +72,6 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
     } */
 
-    #[cfg(not(target_arch = "aarch64"))]
-    compile_error!("Only for aarch64 android");
-
     println!("cargo:rustc-link-search=native=prebuilt/android/arm64-v8a");
     println!("cargo:rustc-link-lib=static=dobby");
 
