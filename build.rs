@@ -8,7 +8,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let out_dir = env::var("OUT_DIR")?;
     let out_dir = Path::new(&out_dir);
 
-    #[cfg(target_os = "ios")]
+    /* #[cfg(target_os = "ios")]
     {
         println!("cargo:rustc-link-search=native=prebuilt/ios/arm64");
     }
@@ -70,9 +70,14 @@ fn main() -> Result<(), Box<dyn Error>> {
         {
             println!("cargo:rustc-link-search=native=prebuilt/android/x86_64");
         }
-    }
+    } */
 
+    #[cfg(not(target_arch = "aarch64"))]
+    compile_error!("Only for aarch64 android");
+
+    println!("cargo:rustc-link-search=native=prebuilt/android/arm64-v8a");
     println!("cargo:rustc-link-lib=static=dobby");
+
     let binding_path = out_dir.join("bindings.rs");
 
     let bindings = builder()
