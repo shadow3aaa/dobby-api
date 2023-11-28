@@ -74,6 +74,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     println!("cargo:rustc-link-search=native=prebuilt/android/arm64-v8a");
     println!("cargo:rustc-link-lib=static=dobby");
+    println!("cargo:rustc-link-lib=dylib=c++");
 
     let binding_path = out_dir.join("bindings.rs");
 
