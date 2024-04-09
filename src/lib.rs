@@ -6,7 +6,6 @@ pub mod bind;
 mod error;
 
 use std::{
-    convert::AsRef,
     ffi::{c_void, CStr, CString},
     ptr,
 };
